@@ -15,13 +15,13 @@ type Message struct {
 }
 
 func Messages() (msgs []Message, err error) {
-	rows, err := db.Db.Query("SELECT id, name, created_at FROM messages")
+	rows, err := db.Db.Query("SELECT id, name, message, created_at FROM messages")
 	if err != nil {
 		return
 	}
 	for rows.Next() {
 		msg := Message{}
-		if err = rows.Scan(&msg.Id, &msg.Name, &msg.CreatedAt); err != nil {
+		if err = rows.Scan(&msg.Id, &msg.Name, &msg.Message, &msg.CreatedAt); err != nil {
 			return
 		}
 		msgs = append(msgs, msg)
