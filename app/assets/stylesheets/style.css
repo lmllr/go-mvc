@@ -1,7 +1,45 @@
-h1 {
-  color: red;
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,400;0,700;1,100;1,400&display=swap');
+
+:root {
+    --primary-color: #1E2022;
+    --secondary-color: #C9D6DF;
+    --font-color: #52616B;
+    --bg-color: #F0F5F9;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-  color: blue;
+  font-family: 'IBM Plex Mono', monospace;
+  background-color: var(--bg-color);
+  color: var(--font-color);
+  height: 100%;
+  margin: 0 20px 0 20px;
+}
+
+p {
+  margin: 20px 0 20px 0;
+}
+
+H1 {
+  margin: 20px 0 20px 0;
+  color: var(--primary-color);
+}
+
+a {
+  color: var(--secondary-color);
+  background-color: var(--primary-color);
+  text-decoration: none;
+}
+
+hr {
+  margin: 20px 0 20px 0;
+}
+
+ul {
+  list-style: none;
 }
