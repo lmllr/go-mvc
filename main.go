@@ -11,7 +11,12 @@ import (
 func main() {
 	// Print something on startup
 	fmt.Println("Starting HTTP server...")
+
 	mux := http.NewServeMux()
+	// Create file server for public/static files
+	fs := http.FileServer(http.Dir("app/assets"))
+	mux.Handle("/assets/", http.StripPrefix("/assets/", fs))
+
 	port := os.Getenv("PORT")
 	fmt.Println("Running on PORT:", port)
 
@@ -24,5 +29,4 @@ func main() {
 		Handler: mux,
 	}
 	server.ListenAndServe()
-
 }
