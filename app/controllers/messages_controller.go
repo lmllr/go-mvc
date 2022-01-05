@@ -16,6 +16,15 @@ func init() {
 	Tpl = template.Must(template.ParseGlob("app/views/*.gohtml"))
 }
 
+func Index(w http.ResponseWriter, r *http.Request) {
+	msgs, err := models.Messages()
+	if err != nil {
+		http.Error(w, http.StatusText(500), http.StatusInternalServerError)
+		return
+	}
+	Tpl.ExecuteTemplate(w, "index.gohtml", msgs)
+}
+
 func CreateMessage(w http.ResponseWriter, r *http.Request) {
 	msg := models.Message{
 		Name:    r.FormValue("name"),

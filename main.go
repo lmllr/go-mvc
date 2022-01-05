@@ -15,7 +15,7 @@ func main() {
 	port := os.Getenv("PORT")
 	fmt.Println("Running on PORT:", port)
 
-	// index
+	mux.HandleFunc("/", controllers.Index)
 	mux.HandleFunc("/messages/create/process", controllers.CreateMessage)
 
 	// starting up the server

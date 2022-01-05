@@ -1,0 +1,11 @@
+{{template "header_component"}}
+
+<h1>Hello!</h1>
+
+<ul>
+  {{range .}}
+  <li><a href=""></a>{{.Id}} -- {{.Name}} -- {{.Message}} -- {{.CreatedAt}}</li>
+  {{end}}
+</ul>
+
+{{template "footer_component"}}
