@@ -1,0 +1,13 @@
+{{template "header_component"}}
+
+<h1>{{.Name}}</h1>
+<p>{{.Message}}</p>
+<p></p>
+<a href="/messages/update?id={{.Id}}">update</a>
+- <a href="/messages/delete/process?id={{.Id}}">delete</a>
+
+<hr>
+
+<p><a href="/messages">Back to all messages</a></p>
+
+{{template "footer_component"}}

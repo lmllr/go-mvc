@@ -8,7 +8,7 @@ import (
 )
 
 type Message struct {
-	Id        int
+	Id        int64
 	Name      string
 	Message   string
 	CreatedAt time.Time
@@ -47,5 +47,18 @@ returning id, name, message, created_at`
 
 	// use QueryRow to return a row and scan the returned id into the User struct
 	err = stmt.QueryRow(msg.Name, msg.Message, time.Now()).Scan(&msg.Id, &msg.Name, &msg.Message, &msg.CreatedAt)
+	return
+}
+
+func (msg *Message) Show() (err error) {
+	statement := `SELECT id, name, message, created_at
+FROM messages WHERE id=$1`
+
+	stmt, err := db.Db.Prepare(statement)
+	if err != nil {
+		return
+	}
+
+	err = stmt.QueryRow(msg.Id).Scan(&msg.Id, &msg.Name, &msg.Message, &msg.CreatedAt)
 	return
 }

@@ -1,11 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title></title>
-</head>
-<body>
-  <h1>Hello, world!</h1>
-  {{.}}
-</body>
-</html>
+{{template "header_component"}}
+
+<ul>
+{{range .}}
+  <li>
+    <h1><a href="/messages/show?id={{.Id}}">{{.Name}}</a></h1>
+    <p>{{.Message}}</p>
+    <p></p>
+    <a href="/messages/update?id={{.Id}}">update</a>
+    - <a href="/messages/delete/process?id={{.Id}}">delete</a>
+  </li>
+  <hr>
+{{end}}
+</ul>
+
+<p><a href="/messages/create">Write a Message</a></p>
+
+{{template "footer_component"}}

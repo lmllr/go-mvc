@@ -21,6 +21,10 @@ func main() {
 	fmt.Println("Running on PORT:", port)
 
 	mux.HandleFunc("/", controllers.Index)
+
+	mux.HandleFunc("/messages", controllers.MessagesShowAll)
+	mux.HandleFunc("/messages/show", controllers.ShowMessage)
+	mux.HandleFunc("/messages/create", controllers.MessagesCreateForm)
 	mux.HandleFunc("/messages/create/process", controllers.CreateMessage)
 
 	// starting up the server

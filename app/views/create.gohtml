@@ -1,0 +1,12 @@
+{{template "header_component"}}
+
+<h1>Create A New Message</h1>
+<form method="post" action="/messages/create/process">
+    <input type="text" name="name" placeholder="Name" required autofocus>
+    <input type="text" name="message" placeholder="Message" required>
+    <input type="submit">
+</form>
+
+<a href="/messages">Back to all messages</a>
+
+{{template "footer_component"}}
