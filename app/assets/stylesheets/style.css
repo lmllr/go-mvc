@@ -1,11 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,400;0,700;1,100;1,400&display=swap');
 
+/* COLORS */
+
 :root {
     --primary-color: #1E2022;
     --secondary-color: #C9D6DF;
     --font-color: #52616B;
     --bg-color: #F0F5F9;
 }
+
+/* GENERAL */
 
 * {
   margin: 0;
@@ -25,7 +29,7 @@ p {
   margin: 20px 0 20px 0;
 }
 
-H1 {
+h1 {
   margin: 20px 0 20px 0;
   color: var(--primary-color);
 }
@@ -42,4 +46,26 @@ hr {
 
 ul {
   list-style: none;
+}
+
+/* FORM */
+
+form {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+}
+
+input, textarea {
+  margin: 0 0 20px 0;
+  width: 50vw;
+  font-size: 2rem;
+  color: var(--primary-color);
+  border: 1px solid black;
+}
+
+input[type=submit] {
+  color: var(--secondary-color);
+  background-color: var(--primary-color);
+  text-decoration: none;
 }
