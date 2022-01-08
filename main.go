@@ -22,8 +22,10 @@ func main() {
 	mux.HandleFunc("/", controllers.Index)
 	mux.HandleFunc("/messages", controllers.MessagesShowAll)
 	mux.HandleFunc("/messages/show", controllers.ShowMessage)
-	mux.HandleFunc("/messages/create", controllers.MessagesCreateForm)
-	mux.HandleFunc("/messages/create/process", controllers.CreateMessage)
+	mux.HandleFunc("/messages/create", controllers.CreateMessageForm)
+	mux.HandleFunc("/messages/create/process", controllers.CreateMessageProcess)
+	mux.HandleFunc("/messages/update", controllers.UpdateMessageForm)
+	mux.HandleFunc("/messages/update/process", controllers.UpdateMessageProcess)
 
 	// starting up the server
 	server := &http.Server{

@@ -1,10 +1,10 @@
-{{template "header_component"}}
+{{template "header_component" .Data}}
 
-<h1>{{.Name}}</h1>
-<p>{{.Message}}</p>
+<h1>{{.Msg.Name}}</h1>
+<p>{{.Msg.Message}}</p>
 <p></p>
-<a href="/messages/update?id={{.Id}}">update</a>
-- <a href="/messages/delete/process?id={{.Id}}">delete</a>
+<a href="/messages/update?id={{.Msg.Id}}">update</a>
+- <a href="/messages/delete/process?id={{.Msg.Id}}">delete</a>
 
 <hr>
 

@@ -1,11 +1,13 @@
 package controllers
 
 import (
+	"database/sql"
 	"net/http"
 	"strconv"
 	"text/template"
 
 	"github.com/lmllr/go-mvc/app/models"
+	"github.com/lmllr/go-mvc/db"
 )
 
 // Init templage
@@ -19,48 +21,69 @@ func init() {
 // GET
 // Simple index page
 func Index(w http.ResponseWriter, r *http.Request) {
-	Tpl.ExecuteTemplate(w, "index.gohtml", nil)
+	page_data := models.RawData{
+		Title: "Index",
+	}
+	pd := models.PageData{
+		Data: page_data,
+	}
+	Tpl.ExecuteTemplate(w, "index.gohtml", pd)
 }
 
 // GET
 // Show all messages
 func MessagesShowAll(w http.ResponseWriter, r *http.Request) {
-	test := models.PageData{
-		Msgs: []models.Message{},
-		Data: models.RawData{
-			Title: "Hello",
-		},
-	}
 	msgs, err := models.Messages()
 	if err != nil {
 		http.Error(w, http.StatusText(500), http.StatusInternalServerError)
 		return
 	}
+	anonymousStruct := struct {
+		Msgs []models.Message
+		Data models.RawData
+	}{
+		msgs,
+		models.RawData{Title: "Show all messages"},
+	}
 
-	test.Msgs = msgs
-	Tpl.ExecuteTemplate(w, "messages.gohtml", test)
+	Tpl.ExecuteTemplate(w, "show_all_messages.gohtml", anonymousStruct)
 }
 
 // GET
 // Show form to create a new message
-func MessagesCreateForm(w http.ResponseWriter, r *http.Request) {
-	Tpl.ExecuteTemplate(w, "create.gohtml", nil)
+func CreateMessageForm(w http.ResponseWriter, r *http.Request) {
+	page_data := models.RawData{
+		Title: "Create message",
+	}
+	pd := models.PageData{
+		Data: page_data,
+	}
+	Tpl.ExecuteTemplate(w, "create_message.gohtml", pd)
 }
 
 // POST
 // Create a new message from form
-func CreateMessage(w http.ResponseWriter, r *http.Request) {
+func CreateMessageProcess(w http.ResponseWriter, r *http.Request) {
 	msg := models.Message{
 		Name:    r.FormValue("name"),
 		Message: r.FormValue("message"),
+	}
+	page_data := models.RawData{
+		Title: "Show message",
 	}
 	if err := msg.Create(); err != nil {
 		http.Error(w, http.StatusText(500), http.StatusInternalServerError)
 		return
 	}
-	Tpl.ExecuteTemplate(w, "show_message.gohtml", msg)
+	pd := models.PageData{
+		Msg:  msg,
+		Data: page_data,
+	}
+	Tpl.ExecuteTemplate(w, "show_message.gohtml", pd)
 }
 
+// GET
+// Show a single message
 func ShowMessage(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(r.FormValue("id"), 0, 0)
 	if err != nil {
@@ -70,9 +93,71 @@ func ShowMessage(w http.ResponseWriter, r *http.Request) {
 	msg := models.Message{
 		Id: id,
 	}
+	page_data := models.RawData{
+		Title: "Show message",
+	}
 	if err := msg.Show(); err != nil {
 		http.Error(w, http.StatusText(500), http.StatusInternalServerError)
 		return
 	}
-	Tpl.ExecuteTemplate(w, "show_message.gohtml", msg)
+	pd := models.PageData{
+		Msg:  msg,
+		Data: page_data,
+	}
+	Tpl.ExecuteTemplate(w, "show_message.gohtml", pd)
+}
+
+func UpdateMessageForm(w http.ResponseWriter, r *http.Request) {
+	id, err := strconv.ParseInt(r.FormValue("id"), 0, 0)
+	if err != nil {
+		http.Error(w, http.StatusText(400), http.StatusBadRequest)
+		return
+	}
+
+	row := db.Db.QueryRow("SELECT id, name, message FROM messages WHERE id=$1", id)
+
+	msg := models.Message{}
+	err = row.Scan(&msg.Id, &msg.Name, &msg.Message)
+	switch {
+	case err == sql.ErrNoRows:
+		http.NotFound(w, r)
+		return
+	case err != nil:
+		http.Error(w, http.StatusText(500), http.StatusInternalServerError)
+		return
+	}
+	page_data := models.RawData{
+		Title: "Update message",
+	}
+	pd := models.PageData{
+		Msg:  msg,
+		Data: page_data,
+	}
+
+	Tpl.ExecuteTemplate(w, "update_message.gohtml", pd)
+}
+
+func UpdateMessageProcess(w http.ResponseWriter, r *http.Request) {
+	id, err := strconv.ParseInt(r.FormValue("id"), 0, 64)
+	if err != nil {
+		http.Error(w, http.StatusText(400), http.StatusBadRequest)
+		return
+	}
+	msg := models.Message{
+		Id:      id,
+		Name:    r.FormValue("name"),
+		Message: r.FormValue("message"),
+	}
+	page_data := models.RawData{
+		Title: "Show message",
+	}
+	pd := models.PageData{
+		Msg:  msg,
+		Data: page_data,
+	}
+	if err := msg.Update(); err != nil {
+		http.Error(w, http.StatusText(500), http.StatusInternalServerError)
+		return
+	}
+	Tpl.ExecuteTemplate(w, "show_message.gohtml", pd)
 }

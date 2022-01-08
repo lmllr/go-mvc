@@ -16,7 +16,7 @@ type Message struct {
 
 // Get all messages
 func Messages() (msgs []Message, err error) {
-	rows, err := db.Db.Query("SELECT id, name, message, created_at FROM messages")
+	rows, err := db.Db.Query("SELECT * FROM messages ORDER BY created_at DESC")
 	if err != nil {
 		return
 	}
@@ -35,7 +35,8 @@ func Messages() (msgs []Message, err error) {
 func (msg *Message) Create() (err error) {
 	// validate form values
 	if msg.Name == "" || msg.Message == "" {
-		return errors.New("this error just triggers another error")
+		errors.New("this error just triggers another error")
+		return
 	}
 
 	statement := `INSERT INTO messages
@@ -63,5 +64,23 @@ FROM messages WHERE id=$1`
 	}
 
 	err = stmt.QueryRow(msg.Id).Scan(&msg.Id, &msg.Name, &msg.Message, &msg.CreatedAt)
+	return
+}
+
+// Update message
+func (msg *Message) Update() (err error) {
+	// validate form values
+	if msg.Name == "" || msg.Message == "" {
+		errors.New("this error just triggers another error")
+		return
+	}
+	statement := "update messages set name = $2, message = $3 where id = $1"
+	stmt, err := db.Db.Prepare(statement)
+	if err != nil {
+		return
+	}
+	defer stmt.Close()
+
+	_, err = stmt.Exec(msg.Id, msg.Name, msg.Message)
 	return
 }

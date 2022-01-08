@@ -1,6 +1,6 @@
 package models
 
 type PageData struct {
-	Msgs []Message
+	Msg  Message
 	Data RawData
 }
