@@ -11,7 +11,6 @@ import (
 func main() {
 	// Print something on startup
 	fmt.Println("Starting HTTP server...")
-
 	mux := http.NewServeMux()
 	// Create file server for public/static files
 	fs := http.FileServer(http.Dir("app/assets"))
@@ -21,7 +20,6 @@ func main() {
 	fmt.Println("Running on PORT:", port)
 
 	mux.HandleFunc("/", controllers.Index)
-
 	mux.HandleFunc("/messages", controllers.MessagesShowAll)
 	mux.HandleFunc("/messages/show", controllers.ShowMessage)
 	mux.HandleFunc("/messages/create", controllers.MessagesCreateForm)

@@ -8,19 +8,22 @@ import (
 	"github.com/lmllr/go-mvc/app/models"
 )
 
-// Init template
+// Init templage
 var Tpl *template.Template
 
-// Func init() will get called on main initialization
 func init() {
 	// Create template
 	Tpl = template.Must(template.ParseGlob("app/views/*.gohtml"))
 }
 
+// GET
+// Simple index page
 func Index(w http.ResponseWriter, r *http.Request) {
 	Tpl.ExecuteTemplate(w, "index.gohtml", nil)
 }
 
+// GET
+// Show all messages
 func MessagesShowAll(w http.ResponseWriter, r *http.Request) {
 	msgs, err := models.Messages()
 	if err != nil {
@@ -30,10 +33,14 @@ func MessagesShowAll(w http.ResponseWriter, r *http.Request) {
 	Tpl.ExecuteTemplate(w, "messages.gohtml", msgs)
 }
 
+// GET
+// Show form to create a new message
 func MessagesCreateForm(w http.ResponseWriter, r *http.Request) {
 	Tpl.ExecuteTemplate(w, "create.gohtml", nil)
 }
 
+// POST
+// Create a new message from form
 func CreateMessage(w http.ResponseWriter, r *http.Request) {
 	msg := models.Message{
 		Name:    r.FormValue("name"),

@@ -14,6 +14,7 @@ type Message struct {
 	CreatedAt time.Time
 }
 
+// Get all messages
 func Messages() (msgs []Message, err error) {
 	rows, err := db.Db.Query("SELECT id, name, message, created_at FROM messages")
 	if err != nil {
@@ -30,6 +31,7 @@ func Messages() (msgs []Message, err error) {
 	return
 }
 
+// Create a message
 func (msg *Message) Create() (err error) {
 	// validate form values
 	if msg.Name == "" || msg.Message == "" {
@@ -50,6 +52,7 @@ returning id, name, message, created_at`
 	return
 }
 
+// Show a single message
 func (msg *Message) Show() (err error) {
 	statement := `SELECT id, name, message, created_at
 FROM messages WHERE id=$1`
