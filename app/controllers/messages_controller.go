@@ -25,12 +25,20 @@ func Index(w http.ResponseWriter, r *http.Request) {
 // GET
 // Show all messages
 func MessagesShowAll(w http.ResponseWriter, r *http.Request) {
+	test := models.PageData{
+		Msgs: []models.Message{},
+		Data: models.RawData{
+			Title: "Hello",
+		},
+	}
 	msgs, err := models.Messages()
 	if err != nil {
 		http.Error(w, http.StatusText(500), http.StatusInternalServerError)
 		return
 	}
-	Tpl.ExecuteTemplate(w, "messages.gohtml", msgs)
+
+	test.Msgs = msgs
+	Tpl.ExecuteTemplate(w, "messages.gohtml", test)
 }
 
 // GET

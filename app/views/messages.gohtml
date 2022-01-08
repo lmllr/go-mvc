@@ -1,7 +1,7 @@
-{{template "header_component"}}
+{{template "header_component" .Data}}
 
 <ul>
-{{range .}}
+{{range .Msgs}}
   <li>
     <h1><a href="/messages/show?id={{.Id}}">{{.Name}}</a></h1>
     <p>{{.Message}}</p>
