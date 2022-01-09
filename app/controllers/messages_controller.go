@@ -1,13 +1,11 @@
 package controllers
 
 import (
-	"database/sql"
 	"net/http"
 	"strconv"
 	"text/template"
 
 	"github.com/lmllr/go-mvc/app/models"
-	"github.com/lmllr/go-mvc/db"
 )
 
 // Init templage
@@ -21,12 +19,15 @@ func init() {
 // GET
 // Simple index page
 func Index(w http.ResponseWriter, r *http.Request) {
+	// PageData
 	page_data := models.RawData{
 		Title: "Index",
 	}
 	pd := models.PageData{
 		Data: page_data,
 	}
+
+	// Render template
 	Tpl.ExecuteTemplate(w, "index.gohtml", pd)
 }
 
@@ -58,6 +59,7 @@ func CreateMessageForm(w http.ResponseWriter, r *http.Request) {
 	pd := models.PageData{
 		Data: page_data,
 	}
+
 	Tpl.ExecuteTemplate(w, "create_message.gohtml", pd)
 }
 
@@ -79,6 +81,7 @@ func CreateMessageProcess(w http.ResponseWriter, r *http.Request) {
 		Msg:  msg,
 		Data: page_data,
 	}
+
 	Tpl.ExecuteTemplate(w, "show_message.gohtml", pd)
 }
 
@@ -104,6 +107,7 @@ func ShowMessage(w http.ResponseWriter, r *http.Request) {
 		Msg:  msg,
 		Data: page_data,
 	}
+
 	Tpl.ExecuteTemplate(w, "show_message.gohtml", pd)
 }
 
@@ -113,16 +117,10 @@ func UpdateMessageForm(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, http.StatusText(400), http.StatusBadRequest)
 		return
 	}
-
-	row := db.Db.QueryRow("SELECT id, name, message FROM messages WHERE id=$1", id)
-
-	msg := models.Message{}
-	err = row.Scan(&msg.Id, &msg.Name, &msg.Message)
-	switch {
-	case err == sql.ErrNoRows:
-		http.NotFound(w, r)
-		return
-	case err != nil:
+	msg := models.Message{
+		Id: id,
+	}
+	if err = msg.Show(); err != nil {
 		http.Error(w, http.StatusText(500), http.StatusInternalServerError)
 		return
 	}
@@ -138,7 +136,7 @@ func UpdateMessageForm(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateMessageProcess(w http.ResponseWriter, r *http.Request) {
-	id, err := strconv.ParseInt(r.FormValue("id"), 0, 64)
+	id, err := strconv.ParseInt(r.FormValue("id"), 0, 0)
 	if err != nil {
 		http.Error(w, http.StatusText(400), http.StatusBadRequest)
 		return
@@ -159,5 +157,6 @@ func UpdateMessageProcess(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, http.StatusText(500), http.StatusInternalServerError)
 		return
 	}
+
 	Tpl.ExecuteTemplate(w, "show_message.gohtml", pd)
 }
