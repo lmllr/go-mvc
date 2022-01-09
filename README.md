@@ -1,5 +1,16 @@
 # GO -- MVC[^1] -- CRUD[^2]
-## DB
+This is a simple example of how to structure a go web application using the MVC[^1] pattern.
+## CLONE
+ssh:
+```zsh
+git clone git@github.com:lmllr/go-mvc.git
+```
+gh[^3]:
+```zsh
+gh repo clone lmllr/go-mvc
+```
+
+## DB (PostgreSQL)
 ```zsh
 createdb go-mvc
 ```
@@ -21,6 +32,16 @@ export PORT=8080
 go run main.go
 ```
 
+```zsh
+curl http://localhost:8080/
+```
+
+```zsh
+curl http://localhost:8080/messages
+```
+
+or visit in your browser: http://localhost:8080
+
 ## POST
 ```zsh
 curl -X POST http://localhost:8080/messages/create/process -d 'name=Gloin&message=Hello, world!'
@@ -32,17 +53,6 @@ or in browser:
 http://localhost:8080/messages/create/process?name=gloin&message=hello+world
 ```
 
-## TODO
-- [X] Create
-- [X] Read
-- [ ] Update
-- [ ] Delete
-- [ ] ~~Frontend~~
-- [ ] More data for title, ...
-
-[^1]: Model View Controller.
-[^2]: Create Read Update Delete.
-
 ## Structure
 ```
 .
@@ -53,20 +63,36 @@ http://localhost:8080/messages/create/process?name=gloin&message=hello+world
 │  ├── controllers
 │  │  └── messages_controller.go
 │  ├── models
-│  │  └── message.go
+│  │  ├── message.go
+│  │  ├── page_data.go
+│  │  └── raw_data.go
 │  └── views
-│     ├── create.gohtml
+│     ├── create_message.gohtml
 │     ├── footer_component.gohtml
 │     ├── header_component.gohtml
 │     ├── index.gohtml
-│     ├── messages.gohtml
-│     └── show_message.gohtml
+│     ├── show_all_messages.gohtml
+│     ├── show_message.gohtml
+│     └── update_message.gohtml
 ├── db
-│  └── db.go
+│  ├── db.go
+│  └── setup.sql
+├── .gitignore
 ├── go.mod
 ├── go.sum
 ├── main.go
-├── README.md
-├── setup.sql
-└── TODO.md
+└── README.md
 ```
+
+## TODO
+- [X] Create
+- [X] Read
+- [X] Update
+- [X] Delete
+- [ ] ~~Frontend~~
+- [X] More data for title, ...
+- [X] Make some comments!!!
+
+[^1]: Model View Controller.
+[^2]: Create Read Update Delete.
+[^3]: GitHub Cli.

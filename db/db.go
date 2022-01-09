@@ -12,7 +12,7 @@ var Db *sql.DB
 
 func init() {
 	var err error
-	// connectionString := "postgres://db-username@localhost/go-mvc?sslmode=disable"
+	// connectionString := "postgres://db-username:db-password@localhost/go-mvc?sslmode=disable"
 	// connectionString := os.Getenv("DATABASE_URL")
 	connectionString := "dbname=go-mvc sslmode=disable"
 
