@@ -111,6 +111,8 @@ func ShowMessage(w http.ResponseWriter, r *http.Request) {
 	Tpl.ExecuteTemplate(w, "show_message.gohtml", pd)
 }
 
+// GET
+// Show form to update a message
 func UpdateMessageForm(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(r.FormValue("id"), 0, 0)
 	if err != nil {
@@ -135,6 +137,8 @@ func UpdateMessageForm(w http.ResponseWriter, r *http.Request) {
 	Tpl.ExecuteTemplate(w, "update_message.gohtml", pd)
 }
 
+// PUT
+// Update a message
 func UpdateMessageProcess(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(r.FormValue("id"), 0, 0)
 	if err != nil {
@@ -159,4 +163,33 @@ func UpdateMessageProcess(w http.ResponseWriter, r *http.Request) {
 	}
 
 	Tpl.ExecuteTemplate(w, "show_message.gohtml", pd)
+}
+
+// DELETE
+// Delete a message
+func DeleteMessageProcess(w http.ResponseWriter, r *http.Request) {
+	id, err := strconv.ParseInt(r.FormValue("id"), 0, 0)
+	if err != nil {
+		http.Error(w, http.StatusText(400), http.StatusBadRequest)
+		return
+	}
+	msg := models.Message{
+		Id: id,
+	}
+	if err := msg.Delete(); err != nil {
+		http.Error(w, http.StatusText(500), http.StatusInternalServerError)
+		return
+	}
+
+	// back to all messages
+	http.Redirect(w, r, "/messages", http.StatusSeeOther)
+}
+
+// DELETE
+// Delete all messages
+func DeleteAllMessagesProcess(w http.ResponseWriter, r *http.Request) {
+	models.DeleteAll()
+
+	// back to all messages
+	http.Redirect(w, r, "/messages", http.StatusSeeOther)
 }

@@ -26,6 +26,8 @@ func main() {
 	mux.HandleFunc("/messages/create/process", controllers.CreateMessageProcess)
 	mux.HandleFunc("/messages/update", controllers.UpdateMessageForm)
 	mux.HandleFunc("/messages/update/process", controllers.UpdateMessageProcess)
+	mux.HandleFunc("/messages/delete/process", controllers.DeleteMessageProcess)
+	mux.HandleFunc("/messages/deleteall/process", controllers.DeleteAllMessagesProcess)
 
 	// starting up the server
 	server := &http.Server{

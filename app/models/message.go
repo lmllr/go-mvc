@@ -40,8 +40,8 @@ func (msg *Message) Create() (err error) {
 	}
 
 	statement := `INSERT INTO messages
-(name, message, created_at) values ($1, $2, $3)
-returning id, name, message, created_at`
+(name, message, created_at) VALUES ($1, $2, $3)
+RETURNING id, name, message, created_at`
 
 	stmt, err := db.Db.Prepare(statement)
 	if err != nil {
@@ -74,7 +74,7 @@ func (msg *Message) Update() (err error) {
 		errors.New("this error just triggers another error")
 		return
 	}
-	statement := "update messages set name = $2, message = $3 where id = $1"
+	statement := "UPDATE messages SET name=$2, message=$3 WHERE id=$1"
 	stmt, err := db.Db.Prepare(statement)
 	if err != nil {
 		return
@@ -82,5 +82,25 @@ func (msg *Message) Update() (err error) {
 	defer stmt.Close()
 
 	_, err = stmt.Exec(msg.Id, msg.Name, msg.Message)
+	return
+}
+
+// Delete messages
+func DeleteAll() (err error) {
+	statement := "DELETE FROM messages"
+	_, err = db.Db.Exec(statement)
+	return
+}
+
+// Delete message
+func (msg *Message) Delete() (err error) {
+	statement := "DELETE FROM messages WHERE id=$1"
+	stmt, err := db.Db.Prepare(statement)
+	if err != nil {
+		return
+	}
+	defer stmt.Close()
+
+	_, err = stmt.Exec(msg.Id)
 	return
 }
