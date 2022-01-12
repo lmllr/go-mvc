@@ -71,8 +71,8 @@ FROM messages WHERE id=$1`
 func (msg *Message) Update() (err error) {
 	// validate form values
 	if msg.Name == "" || msg.Message == "" {
-		errors.New("this error just triggers another error")
-		return
+		err := errors.New("this error just triggers another error")
+		return err
 	}
 	statement := "UPDATE messages SET name=$2, message=$3 WHERE id=$1"
 	stmt, err := db.Db.Prepare(statement)

@@ -19,6 +19,12 @@ func init() {
 // GET
 // Simple index page
 func Index(w http.ResponseWriter, r *http.Request) {
+	// Check http request method
+	if r.Method != http.MethodGet {
+		w.WriteHeader(405)
+		// http.Error(w, http.StatusText(405), http.StatusMethodNotAllowed)
+		return
+	}
 	// PageData
 	page_data := models.RawData{
 		Title: "Index",
@@ -34,6 +40,10 @@ func Index(w http.ResponseWriter, r *http.Request) {
 // GET
 // Show all messages
 func MessagesShowAll(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodGet {
+		w.WriteHeader(405)
+		return
+	}
 	msgs, err := models.Messages()
 	if err != nil {
 		http.Error(w, http.StatusText(500), http.StatusInternalServerError)
@@ -53,6 +63,10 @@ func MessagesShowAll(w http.ResponseWriter, r *http.Request) {
 // GET
 // Show form to create a new message
 func CreateMessageForm(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodGet {
+		w.WriteHeader(405)
+		return
+	}
 	page_data := models.RawData{
 		Title: "Create message",
 	}
@@ -66,6 +80,10 @@ func CreateMessageForm(w http.ResponseWriter, r *http.Request) {
 // POST
 // Create a new message from form
 func CreateMessageProcess(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		w.WriteHeader(405)
+		return
+	}
 	msg := models.Message{
 		Name:    r.FormValue("name"),
 		Message: r.FormValue("message"),
@@ -88,6 +106,10 @@ func CreateMessageProcess(w http.ResponseWriter, r *http.Request) {
 // GET
 // Show a single message
 func ShowMessage(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodGet {
+		w.WriteHeader(405)
+		return
+	}
 	id, err := strconv.ParseInt(r.FormValue("id"), 0, 0)
 	if err != nil {
 		http.Error(w, http.StatusText(400), http.StatusBadRequest)
@@ -114,6 +136,10 @@ func ShowMessage(w http.ResponseWriter, r *http.Request) {
 // GET
 // Show form to update a message
 func UpdateMessageForm(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodGet {
+		w.WriteHeader(405)
+		return
+	}
 	id, err := strconv.ParseInt(r.FormValue("id"), 0, 0)
 	if err != nil {
 		http.Error(w, http.StatusText(400), http.StatusBadRequest)
@@ -140,6 +166,15 @@ func UpdateMessageForm(w http.ResponseWriter, r *http.Request) {
 // PUT
 // Update a message
 func UpdateMessageProcess(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPut {
+		w.WriteHeader(405)
+		return
+	}
+	err := r.ParseForm()
+	if err != nil {
+		http.Error(w, http.StatusText(400), http.StatusBadRequest)
+		return
+	}
 	id, err := strconv.ParseInt(r.FormValue("id"), 0, 0)
 	if err != nil {
 		http.Error(w, http.StatusText(400), http.StatusBadRequest)
@@ -168,6 +203,10 @@ func UpdateMessageProcess(w http.ResponseWriter, r *http.Request) {
 // DELETE
 // Delete a message
 func DeleteMessageProcess(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodDelete {
+		w.WriteHeader(405)
+		return
+	}
 	id, err := strconv.ParseInt(r.FormValue("id"), 0, 0)
 	if err != nil {
 		http.Error(w, http.StatusText(400), http.StatusBadRequest)
@@ -188,6 +227,10 @@ func DeleteMessageProcess(w http.ResponseWriter, r *http.Request) {
 // DELETE
 // Delete all messages
 func DeleteAllMessagesProcess(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodDelete {
+		w.WriteHeader(405)
+		return
+	}
 	models.DeleteAll()
 
 	// back to all messages
