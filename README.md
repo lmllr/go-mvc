@@ -43,6 +43,7 @@ curl http://localhost:8080/messages
 or visit in your browser: http://localhost:8080
 
 ## POST
+### application/x-www-form-urlencoded
 ```zsh
 curl -X POST http://localhost:8080/messages/create/process -d 'name=Gloin&message=Hello, world!'
 ```
@@ -50,7 +51,19 @@ curl -X POST http://localhost:8080/messages/create/process -d 'name=Gloin&messag
 or in browser:
 
 ```
-http://localhost:8080/messages/create/process?name=gloin&message=hello+world
+http://localhost:8080/messages/create/process?name=Bofur&message=To+the+weapons
+```
+
+### application/json
+```zsh
+curl -X POST http://localhost:8080/messages/createjson/process -H "Content-Type: application/json" -d '{"name":"Bombur", "msg":"Boop.Beep."}'
+```
+
+```zsh
+curl -X POST \
+http://localhost:8080/messages/createjson/process \
+-H "Content-Type: application/json" \
+-d '{"name":"Oin", "msg":"WARGH!"}'
 ```
 
 ## Structure
@@ -61,9 +74,13 @@ http://localhost:8080/messages/create/process?name=gloin&message=hello+world
 │  │  └── stylesheets
 │  │     └── style.css
 │  ├── controllers
-│  │  └── messages_controller.go
+│  │  ├── messages_controller.go
+│  │  └── messages_json_controller.go
+│  ├── helpers
+│  │  └── parse_json.go
 │  ├── models
 │  │  ├── message.go
+│  │  ├── message_json.go
 │  │  ├── page_data.go
 │  │  └── raw_data.go
 │  └── views
@@ -77,7 +94,23 @@ http://localhost:8080/messages/create/process?name=gloin&message=hello+world
 ├── db
 │  ├── db.go
 │  └── setup.sql
-├── .gitignore
+├── go.mod
+├── go.sum
+├── main.go
+└── README.md
+```
+
+---
+
+```
+.
+├── app/
+│  ├── assets/
+│  ├── controllers/
+│  ├── helpers/
+│  ├── models/
+│  └── views/
+├── db/
 ├── go.mod
 ├── go.sum
 ├── main.go
@@ -92,6 +125,11 @@ http://localhost:8080/messages/create/process?name=gloin&message=hello+world
 - [ ] ~~Frontend~~
 - [X] More data for title, ...
 - [X] Make some comments!!!
+
+- [X] Create JSON
+- [ ] Read JSON
+- [ ] Update JSON
+- [ ] Delete JSON
 
 [^1]: Model View Controller.
 [^2]: Create Read Update Delete.

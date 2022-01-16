@@ -18,6 +18,7 @@ func main() {
 
 	port := os.Getenv("PORT")
 	fmt.Println("Running on PORT:", port)
+	fmt.Printf("Visit http://localhost:%s\n", port)
 
 	mux.HandleFunc("/", controllers.Index)
 	mux.HandleFunc("/messages", controllers.MessagesShowAll)
@@ -29,9 +30,10 @@ func main() {
 	mux.HandleFunc("/messages/delete/process", controllers.DeleteMessageProcess)
 	mux.HandleFunc("/messages/deleteall/process", controllers.DeleteAllMessagesProcess)
 
+	mux.HandleFunc("/messages/createjson/process", controllers.CreateMessageProcessJSON)
 	// starting up the server
 	server := &http.Server{
-		Addr:    "0.0.0.0:" + port,
+		Addr:    "127.0.0.0:" + port,
 		Handler: mux,
 	}
 	server.ListenAndServe()
