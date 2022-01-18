@@ -8,11 +8,13 @@ import (
 )
 
 func CreateMessageProcessJSON(w http.ResponseWriter, r *http.Request) {
-	if r.Header.Get("content-type") != "application/json" ||
-		r.Method != http.MethodPost {
+	if r.Method != http.MethodPost {
+		w.WriteHeader(405)
+		return
+	}
+	if r.Header.Get("content-type") != "application/json" {
 		w.WriteHeader(406)
 		return
-
 	}
 	msg := &models.MessageJSON{}
 	helpers.ParseBody(r, msg)
@@ -23,7 +25,7 @@ func CreateMessageProcessJSON(w http.ResponseWriter, r *http.Request) {
 	}
 	pd := models.PageDataJSON{
 		*msg,
-		models.RawData{Title: "TEST"},
+		models.RawData{Title: "Show json message"},
 	}
 
 	Tpl.ExecuteTemplate(w, "show_message.gohtml", pd)

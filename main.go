@@ -33,7 +33,7 @@ func main() {
 	mux.HandleFunc("/messages/createjson/process", controllers.CreateMessageProcessJSON)
 	// starting up the server
 	server := &http.Server{
-		Addr:    "127.0.0.0:" + port,
+		Addr:    "127.0.0.1:" + port,
 		Handler: mux,
 	}
 	server.ListenAndServe()
