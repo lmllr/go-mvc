@@ -53,6 +53,20 @@ or in browser:
 http://localhost:8080/messages/create/process?name=gloin&message=hello+world
 ```
 
+## PUT
+```zsh
+curl -X PUT -d "id=57&name=Oin&message=Er ist wieder DA\!" http://localhost:8080/messages/update/process
+```
+
+## DELETE
+```zsh
+curl -X DELETE http://localhost:8080/messages/delete/process/54
+```
+
+```zsh
+curl -X DELETE http://localhost:8080/messages/delete/process\?id=55
+```
+
 ## Structure
 ```
 .
