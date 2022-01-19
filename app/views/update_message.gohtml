@@ -1,7 +1,7 @@
 {{template "header_component" .Data}}
 
 <h1>Update A Message</h1>
-<form method="put" action="/messages/update/process">
+<form method="post" action="/messages/update/process">
   <input type"number" name="id" value="{{.Msg.Id}}" hidden>
   <input type="text" name="name" Value="{{.Msg.Name}}" required autofocus>
     <!-- <input type="text" name="message" placeholder="Message" required> -->

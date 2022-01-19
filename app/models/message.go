@@ -35,7 +35,7 @@ func Messages() (msgs []Message, err error) {
 func (msg *Message) Create() (err error) {
 	// validate form values
 	if msg.Name == "" || msg.Message == "" {
-		errors.New("this error just triggers another error")
+		// errors.New("this error just triggers another error")
 		return
 	}
 

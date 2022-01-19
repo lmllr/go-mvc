@@ -200,6 +200,7 @@ func UpdateMessageProcess(w http.ResponseWriter, r *http.Request) {
 	Tpl.ExecuteTemplate(w, "show_message.gohtml", pd)
 }
 
+// TODO: Decide: href cant be a delete action only curl works
 // DELETE
 // Delete a message
 func DeleteMessageProcess(w http.ResponseWriter, r *http.Request) {
@@ -219,6 +220,9 @@ func DeleteMessageProcess(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, http.StatusText(500), http.StatusInternalServerError)
 		return
 	}
+
+	// TODO: redirect a good way?
+	// no infos when curl
 
 	// back to all messages
 	http.Redirect(w, r, "/messages", http.StatusSeeOther)
