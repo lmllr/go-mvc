@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/lmllr/go-mvc/app/helpers"
@@ -16,17 +17,28 @@ func CreateMessageProcessJSON(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(406)
 		return
 	}
-	msg := &models.MessageJSON{}
-	helpers.ParseBody(r, msg)
 
-	if err := msg.CreateFromJSON(); err != nil {
-		http.Error(w, http.StatusText(500), http.StatusInternalServerError)
-		return
+	msgs := []models.MessageJSON{}
+	helpers.ParseBody(r, &msgs)
+
+	// DOES NOT WORK
+	for _, msg := range msgs {
+		if err := msg.CreateFromJSON(); err != nil {
+			http.Error(w, http.StatusText(500), http.StatusInternalServerError)
+			return
+		}
 	}
+
+	// WORKS
+	// if err := msgs[0].CreateFromJSON(); err != nil {
+	// 	http.Error(w, http.StatusText(500), http.StatusInternalServerError)
+	// 	return
+	// }
+
 	pd := models.PageDataJSON{
-		*msg,
+		msgs,
 		models.RawData{Title: "Show json message"},
 	}
 
-	Tpl.ExecuteTemplate(w, "show_message.gohtml", pd)
+	fmt.Fprintln(w, pd)
 }

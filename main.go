@@ -20,6 +20,7 @@ func main() {
 	fmt.Println("Running on PORT:", port)
 	fmt.Printf("Visit http://localhost:%s\n", port)
 
+	//> Content-Type: application/x-www-form-urlencoded
 	mux.HandleFunc("/", controllers.Index)
 	mux.HandleFunc("/messages", controllers.MessagesShowAll)
 	mux.HandleFunc("/messages/show", controllers.ShowMessage)
@@ -30,6 +31,7 @@ func main() {
 	mux.HandleFunc("/messages/delete/process", controllers.DeleteMessageProcess)
 	mux.HandleFunc("/messages/deleteall/process", controllers.DeleteAllMessagesProcess)
 
+	//> Content-Type: application/json
 	mux.HandleFunc("/messages/createjson/process", controllers.CreateMessageProcessJSON)
 	// starting up the server
 	server := &http.Server{

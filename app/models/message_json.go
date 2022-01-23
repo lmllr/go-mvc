@@ -7,11 +7,6 @@ import (
 	"github.com/lmllr/go-mvc/db"
 )
 
-type PageDataJSON struct {
-	Msg  MessageJSON
-	Data RawData
-}
-
 type MessageJSON struct {
 	Id        int64     `json:"id"`
 	Name      string    `json:"name"`
@@ -26,9 +21,7 @@ func (msg *MessageJSON) CreateFromJSON() (err error) {
 		return
 	}
 
-	statement := `INSERT INTO messages
-(name, message, created_at) VALUES ($1, $2, $3)
-RETURNING id, name, message, created_at`
+	statement := `INSERT INTO messages (name, message, created_at) VALUES ($1, $2, $3) RETURNING id, name, message, created_at`
 
 	stmt, err := db.Db.Prepare(statement)
 	if err != nil {
