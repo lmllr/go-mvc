@@ -48,6 +48,12 @@ or visit in your browser: http://localhost:8080
 curl -X POST http://localhost:8080/messages/create/process -d 'name=Gloin&message=Hello, world!'
 ```
 
+```zsh
+% curl -X POST \
+http://localhost:8080/messages/createjson/process \
+-H "Content-Type: application/json" -H "Connection: close" \
+-d '[{"name":"one", "msg":"..."},{"name":"two","msg":"2"}]' -v
+```
 or in browser:
 
 ```

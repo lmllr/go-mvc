@@ -32,7 +32,8 @@ func main() {
 	mux.HandleFunc("/messages/deleteall/process", controllers.DeleteAllMessagesProcess)
 
 	//> Content-Type: application/json
-	mux.HandleFunc("/messages/createjson/process", controllers.CreateMessageProcessJSON)
+	mux.HandleFunc("/messages/createjson/process", controllers.CreateMessagesProcessJSON)
+
 	// starting up the server
 	server := &http.Server{
 		Addr:    "127.0.0.1:" + port,
