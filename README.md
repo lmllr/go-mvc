@@ -23,7 +23,8 @@ psql -d go-mvc
 psql -f db/setup.sql -d go-mvc
 ```
 
-## RUN
+## GET
+### application/x-www-form-urlencoded
 ```zsh
 export PORT=8080
 ```
@@ -40,7 +41,15 @@ curl http://localhost:8080/
 curl http://localhost:8080/messages
 ```
 
-or visit in your browser: http://localhost:8080
+or visit in your browser: [http://localhost:8080](http://localhost:8080)
+
+### application/x-www-form-urlencoded
+```zsh
+curl -X GET \
+http://localhost:8080/messages/showJSON \
+-H "Content-Type: application/json" \
+-d '{"id":130}'## application/json
+```
 
 ## POST
 ### application/x-www-form-urlencoded
@@ -48,12 +57,6 @@ or visit in your browser: http://localhost:8080
 curl -X POST http://localhost:8080/messages/create/process -d 'name=Gloin&message=Hello, world!'
 ```
 
-```zsh
-% curl -X POST \
-http://localhost:8080/messages/createjson/process \
--H "Content-Type: application/json" -H "Connection: close" \
--d '[{"name":"one", "msg":"..."},{"name":"two","msg":"2"}]' -v
-```
 or in browser:
 
 ```
@@ -70,6 +73,20 @@ curl -X POST \
 http://localhost:8080/messages/createjson/process \
 -H "Content-Type: application/json" \
 -d '{"name":"Oin", "msg":"WARGH!"}'
+```
+
+```zsh
+% curl -X POST \
+http://localhost:8080/messages/createjson/process \
+-H "Content-Type: application/json" -H "Connection: close" \
+-d '[{"name":"one", "msg":"..."},{"name":"two","msg":"2"}]' -v
+```
+
+```zsh
+curl -X POST \
+http://localhost:8080/messages/createjson/process \
+-H "Content-Type: application/json" -H "Connection: close" \
+-d '{"name":"one","msg":"WHATEVER"}' -v
 ```
 
 ## Structure
@@ -133,7 +150,7 @@ http://localhost:8080/messages/createjson/process \
 - [X] Make some comments!!!
 
 - [X] Create JSON
-- [ ] Read JSON
+- [X] Read JSON
 - [ ] Update JSON
 - [ ] Delete JSON
 

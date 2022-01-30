@@ -32,3 +32,20 @@ func (msg *MessageJSON) CreateFromJSON() (err error) {
 	err = stmt.QueryRow(msg.Name, msg.Message, time.Now()).Scan(&msg.Id, &msg.Name, &msg.Message, &msg.CreatedAt)
 	return
 }
+
+// Show a single message
+func (msg *MessageJSON) Show() (err error) {
+	statement := `SELECT id, name, message, created_at
+FROM messages WHERE id=$1`
+
+	stmt, err := db.Db.Prepare(statement)
+	if err != nil {
+		return
+	}
+
+	err = stmt.QueryRow(msg.Id).Scan(&msg.Id, &msg.Name, &msg.Message, &msg.CreatedAt)
+	return
+}
+
+// Update
+// Delete
