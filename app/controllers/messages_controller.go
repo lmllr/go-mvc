@@ -227,10 +227,10 @@ func DeleteMessageProcess(w http.ResponseWriter, r *http.Request) {
 // DELETE
 // Delete all messages
 func DeleteAllMessagesProcess(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodDelete {
-		w.WriteHeader(405)
-		return
-	}
+	// if r.Method != http.MethodDelete {
+	// 	w.WriteHeader(405)
+	// 	return
+	// }
 	models.DeleteAll()
 
 	// back to all messages

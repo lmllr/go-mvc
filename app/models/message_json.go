@@ -14,6 +14,22 @@ type MessageJSON struct {
 	CreatedAt time.Time `json:"created_at"`
 }
 
+func MessagesJSON() (msgs []MessageJSON, err error) {
+	rows, err := db.Db.Query("SELECT * FROM messages ORDER BY created_at DESC")
+	if err != nil {
+		return
+	}
+	for rows.Next() {
+		msg := MessageJSON{}
+		if err = rows.Scan(&msg.Id, &msg.Name, &msg.Message, &msg.CreatedAt); err != nil {
+			return
+		}
+		msgs = append(msgs, msg)
+	}
+	rows.Close()
+	return
+}
+
 func (msg *MessageJSON) CreateFromJSON() (err error) {
 	// validate form values
 	if msg.Name == "" || msg.Message == "" {
