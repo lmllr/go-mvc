@@ -23,6 +23,11 @@ psql -d go-mvc
 psql -f db/setup.sql -d go-mvc
 ```
 
+## CREATE USER
+```zsh
+curl -X POST 'http://localhost:8080/user/create/process?name=luke&email=luke@skywalker.com&pw=1234'
+```
+
 ## RUN
 ```zsh
 export PORT=8080

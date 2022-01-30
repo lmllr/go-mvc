@@ -19,6 +19,9 @@ func main() {
 	port := os.Getenv("PORT")
 	fmt.Println("Running on PORT:", port)
 
+	//> user auth
+	mux.HandleFunc("/user/create/process", controllers.CreateUser)
+
 	mux.HandleFunc("/", controllers.Index)
 	mux.HandleFunc("/messages", controllers.MessagesShowAll)
 	mux.HandleFunc("/messages/show", controllers.ShowMessage)
