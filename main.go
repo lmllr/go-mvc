@@ -18,7 +18,9 @@ func main() {
 
 	port := os.Getenv("PORT")
 	fmt.Println("Running on PORT:", port)
+	fmt.Printf("Visit http://localhost:%s\n", port)
 
+	//> Content-Type: application/x-www-form-urlencoded
 	mux.HandleFunc("/", controllers.Index)
 	mux.HandleFunc("/messages", controllers.MessagesShowAll)
 	mux.HandleFunc("/messages/show", controllers.ShowMessage)
@@ -29,9 +31,19 @@ func main() {
 	mux.HandleFunc("/messages/delete/process", controllers.DeleteMessageProcess)
 	mux.HandleFunc("/messages/deleteall/process", controllers.DeleteAllMessagesProcess)
 
+	//> Content-Type: application/json
+	mux.HandleFunc("/json/messages", controllers.ShowMessagesJSON)
+	mux.HandleFunc("/json/messages/showjson", controllers.ShowMessageJSON)
+	mux.HandleFunc("/json/messages/showjsonarr", controllers.ShowMessageJSONARR)
+	mux.HandleFunc("/json/messages/createjson", controllers.CreateMessageJSON)
+	mux.HandleFunc("/json/messages/createjsons", controllers.CreateMessagesJSON)
+	mux.HandleFunc("/json/messages/updatejson", controllers.UpdateMessageJSON)
+	mux.HandleFunc("/json/messages/updatejsons", controllers.UpdateMessagesJSON)
+	mux.HandleFunc("/json/messages/delete", controllers.DeleteMessageJSON)
+
 	// starting up the server
 	server := &http.Server{
-		Addr:    "0.0.0.0:" + port,
+		Addr:    ":" + port,
 		Handler: mux,
 	}
 	server.ListenAndServe()

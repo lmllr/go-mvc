@@ -7,21 +7,20 @@ import (
 	"github.com/lmllr/go-mvc/db"
 )
 
-type Message struct {
-	Id        int64
-	Name      string
-	Message   string
-	CreatedAt time.Time
+type MessageJSON struct {
+	Id        int       `json:"id"`
+	Name      string    `json:"name"`
+	Message   string    `json:"msg"`
+	CreatedAt time.Time `json:"created_at"`
 }
 
-// Get all messages
-func Messages() (msgs []Message, err error) {
+func MessagesJSON() (msgs []MessageJSON, err error) {
 	rows, err := db.Db.Query("SELECT * FROM messages ORDER BY created_at DESC")
 	if err != nil {
 		return
 	}
 	for rows.Next() {
-		msg := Message{}
+		msg := MessageJSON{}
 		if err = rows.Scan(&msg.Id, &msg.Name, &msg.Message, &msg.CreatedAt); err != nil {
 			return
 		}
@@ -31,17 +30,14 @@ func Messages() (msgs []Message, err error) {
 	return
 }
 
-// Create a message
-func (msg *Message) Create() (err error) {
+func (msg *MessageJSON) CreateFromJSON() (err error) {
 	// validate form values
 	if msg.Name == "" || msg.Message == "" {
 		errors.New("this error just triggers another error")
 		return
 	}
 
-	statement := `INSERT INTO messages
-(name, message, created_at) VALUES ($1, $2, $3)
-RETURNING id, name, message, created_at`
+	statement := `INSERT INTO messages (name, message, created_at) VALUES ($1, $2, $3) RETURNING id, name, message, created_at`
 
 	stmt, err := db.Db.Prepare(statement)
 	if err != nil {
@@ -54,7 +50,7 @@ RETURNING id, name, message, created_at`
 }
 
 // Show a single message
-func (msg *Message) Show() (err error) {
+func (msg *MessageJSON) Show() (err error) {
 	statement := `SELECT id, name, message, created_at
 FROM messages WHERE id=$1`
 
@@ -68,7 +64,7 @@ FROM messages WHERE id=$1`
 }
 
 // Update message
-func (msg *Message) Update() (err error) {
+func (msg *MessageJSON) Update() (err error) {
 	// validate form values
 	if msg.Name == "" || msg.Message == "" {
 		err = errors.New("this error just triggers another error")
@@ -85,15 +81,8 @@ func (msg *Message) Update() (err error) {
 	return
 }
 
-// Delete messages
-func DeleteAll() (err error) {
-	statement := "DELETE FROM messages"
-	_, err = db.Db.Exec(statement)
-	return
-}
-
 // Delete message
-func (msg *Message) Delete() (err error) {
+func (msg *MessageJSON) DeleteJSON() (err error) {
 	statement := "DELETE FROM messages WHERE id=$1"
 	stmt, err := db.Db.Prepare(statement)
 	if err != nil {
