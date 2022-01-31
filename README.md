@@ -2,7 +2,7 @@
 This is a simple example of how to structure a go web application using the MVC[^1] pattern.
 
 * [Clone the project](#clone-the-project)
-* [DB Setup](#setup-db-(postgresql)
+* [DB Setup](#setup-db-postgresql)
 * [Quickstart the app](#quickstart-the-app)
 * [Make some more HTTP requests](#make-some-more-http-requests)
   * [GET](#get)
