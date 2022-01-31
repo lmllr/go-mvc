@@ -63,5 +63,33 @@ FROM messages WHERE id=$1`
 	return
 }
 
-// Update
-// Delete
+// Update message
+func (msg *MessageJSON) Update() (err error) {
+	// validate form values
+	if msg.Name == "" || msg.Message == "" {
+		err = errors.New("this error just triggers another error")
+		return err
+	}
+	statement := "UPDATE messages SET name=$2, message=$3 WHERE id=$1"
+	stmt, err := db.Db.Prepare(statement)
+	if err != nil {
+		return
+	}
+	defer stmt.Close()
+
+	_, err = stmt.Exec(msg.Id, msg.Name, msg.Message)
+	return
+}
+
+// Delete message
+func (msg *MessageJSON) DeleteJSON() (err error) {
+	statement := "DELETE FROM messages WHERE id=$1"
+	stmt, err := db.Db.Prepare(statement)
+	if err != nil {
+		return
+	}
+	defer stmt.Close()
+
+	_, err = stmt.Exec(msg.Id)
+	return
+}

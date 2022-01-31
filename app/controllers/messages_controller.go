@@ -80,10 +80,10 @@ func CreateMessageForm(w http.ResponseWriter, r *http.Request) {
 // POST
 // Create a new message from form
 func CreateMessageProcess(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodPost {
-		w.WriteHeader(405)
-		return
-	}
+	// if r.Method != http.MethodPost {
+	// 	w.WriteHeader(405)
+	// 	return
+	// }
 	msg := models.Message{
 		Name:    r.FormValue("name"),
 		Message: r.FormValue("message"),
@@ -163,13 +163,13 @@ func UpdateMessageForm(w http.ResponseWriter, r *http.Request) {
 	Tpl.ExecuteTemplate(w, "update_message.gohtml", pd)
 }
 
-// PUT
+// PUT/POST
 // Update a message
 func UpdateMessageProcess(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodPut {
-		w.WriteHeader(405)
-		return
-	}
+	// if r.Method != http.MethodPut {
+	// 	w.WriteHeader(405)
+	// 	return
+	// }
 	err := r.ParseForm()
 	if err != nil {
 		http.Error(w, http.StatusText(400), http.StatusBadRequest)
@@ -200,13 +200,13 @@ func UpdateMessageProcess(w http.ResponseWriter, r *http.Request) {
 	Tpl.ExecuteTemplate(w, "show_message.gohtml", pd)
 }
 
-// DELETE
+// DELETE/POST
 // Delete a message
 func DeleteMessageProcess(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodDelete {
-		w.WriteHeader(405)
-		return
-	}
+	// if r.Method != http.MethodDelete {
+	// 	w.WriteHeader(405)
+	// 	return
+	// }
 	id, err := strconv.ParseInt(r.FormValue("id"), 0, 0)
 	if err != nil {
 		http.Error(w, http.StatusText(400), http.StatusBadRequest)
@@ -224,7 +224,7 @@ func DeleteMessageProcess(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/messages", http.StatusSeeOther)
 }
 
-// DELETE
+// DELETE/POST
 // Delete all messages
 func DeleteAllMessagesProcess(w http.ResponseWriter, r *http.Request) {
 	// if r.Method != http.MethodDelete {

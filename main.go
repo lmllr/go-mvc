@@ -32,10 +32,14 @@ func main() {
 	mux.HandleFunc("/messages/deleteall/process", controllers.DeleteAllMessagesProcess)
 
 	//> Content-Type: application/json
-	mux.HandleFunc("/messages/createjson/process", controllers.CreateMessageProcessJSON)
-	mux.HandleFunc("/messages/createjsons/process", controllers.CreateMessagesProcessJSON)
-	mux.HandleFunc("/messages/messages", controllers.ShowMessagesJSON)
-	mux.HandleFunc("/messages/showjson", controllers.ShowMessageJSON)
+	mux.HandleFunc("/json/messages", controllers.ShowMessagesJSON)
+	mux.HandleFunc("/json/messages/showjson", controllers.ShowMessageJSON)
+	mux.HandleFunc("/json/messages/showjsonarr", controllers.ShowMessageJSONARR)
+	mux.HandleFunc("/json/messages/createjson", controllers.CreateMessageJSON)
+	mux.HandleFunc("/json/messages/createjsons", controllers.CreateMessagesJSON)
+	mux.HandleFunc("/json/messages/updatejson", controllers.UpdateMessageJSON)
+	mux.HandleFunc("/json/messages/updatejsons", controllers.UpdateMessagesJSON)
+	mux.HandleFunc("/json/messages/delete", controllers.DeleteMessageJSON)
 
 	// starting up the server
 	server := &http.Server{
