@@ -133,6 +133,11 @@ http://localhost:8080/json/messages/updatejsons \
 -d '[{"id":1,"name":"UPDATED Dwalin","msg":"Wooohooo, update me more."},{"id":2,"name":"UPDATED Balin","msg":"grmph..."}]'
 ```
 
+#### application/x-www-form-urlencoded
+```zsh
+curl -X PUT -d "id=57&name=Oin&message=Er ist wieder DA\!" http://localhost:8080/messages/update/process
+```
+
 ### DELETE
 #### application/x-www-form-urlencoded
 >(NO DELETE METHOD)
@@ -140,6 +145,15 @@ Delete all messages:
 ```zsh
 curl http://localhost:8080/messages/deleteall/process
 ```
+
+```zsh
+curl -X DELETE http://localhost:8080/messages/delete/process/54
+```
+
+```zsh
+curl -X DELETE http://localhost:8080/messages/delete/process\?id=55
+```
+
 #### application/json
 Delete a single message by ID, in JSON format:  
 ```zsh
@@ -147,20 +161,6 @@ curl -X DELETE \
 http://localhost:8080/json/messages/delete \
 -H "Content-Type: application/json" \
 -d '{"id":1}'
-```
-
-## PUT
-```zsh
-curl -X PUT -d "id=57&name=Oin&message=Er ist wieder DA\!" http://localhost:8080/messages/update/process
-```
-
-## DELETE
-```zsh
-curl -X DELETE http://localhost:8080/messages/delete/process/54
-```
-
-```zsh
-curl -X DELETE http://localhost:8080/messages/delete/process\?id=55
 ```
 
 ## Structure
