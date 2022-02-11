@@ -44,7 +44,7 @@ func CreateMessagesJSON(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("content-type", "application/json")
 	// w.WriteHeader(http.StatusOK) // <-- Automatic?
-	w.Write(res)
+	w.Write(res) // <-- {"..."}%
 }
 
 // POST
@@ -103,7 +103,7 @@ func ShowMessagesJSON(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("content-type", "application/json")
-	w.Write(res) // <-- {"..."}%
+	w.Write(res)
 }
 
 // GET
@@ -111,7 +111,6 @@ func ShowMessagesJSON(w http.ResponseWriter, r *http.Request) {
 // get a single message by id
 func ShowMessageJSON(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodGet {
-		// w.Header().Add("error", "error msg")
 		w.WriteHeader(405)
 		fmt.Fprintf(w, `{"error":"%s"}`, http.StatusText(http.StatusMethodNotAllowed))
 		return
@@ -144,7 +143,6 @@ func ShowMessageJSON(w http.ResponseWriter, r *http.Request) {
 // get mutliple messageS by id
 func ShowMessageJSONARR(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodGet {
-		// w.Header().Add("error", "error msg")
 		w.WriteHeader(405)
 		fmt.Fprintf(w, `{"error":"%s"}`, http.StatusText(http.StatusMethodNotAllowed))
 		return
@@ -170,7 +168,6 @@ func ShowMessageJSONARR(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, `{"error":"%s"}`, "error marshalling arguments")
 		return
 	}
-	// res = append(res, "\n"...)
 
 	w.Header().Set("content-type", "application/json")
 	w.Write(res)
@@ -264,8 +261,6 @@ func DeleteMessageJSON(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// w.Header().Set("content-type", "application/json")
-	// w.Write(res)
 	msgs, err := models.MessagesJSON()
 	if err != nil {
 		http.Error(w, `{"error":"%s"}`, http.StatusInternalServerError)
@@ -279,5 +274,5 @@ func DeleteMessageJSON(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("content-type", "application/json")
-	w.Write(res) // <-- {"..."}%
+	w.Write(res)
 }
